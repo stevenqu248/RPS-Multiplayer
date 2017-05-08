@@ -84,10 +84,12 @@ database.ref().on("value", function(snapshot)
 			if(User2 == "VACANT" && playerPosition == "User1")
 				$("#system-message").text("Opponent has disconnected. Please connect again to continue playing");
 			var slotRef = database.ref(playerPosition);
+			var slotChoiceRef = database.ref(playerPosition + "Choice");
+			var slotChatRef = database.ref(playerPosition + "Chat");
 			playerPosition = null;
 			slotRef.set("VACANT");
-
-
+			slotChatRef.set("NONE");
+			slotChoiceRef.set("NONE");
 		}
 	}
 

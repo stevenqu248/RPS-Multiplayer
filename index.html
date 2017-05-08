@@ -17,24 +17,25 @@
 	<!-- Own Code -->
 	<script type="text/javascript" src="assets/javascript/game.js"></script>
 	<script type="text/javascript" src="assets/javascript/network.js"></script>
-	<script type="text/javascript" src="assets/javascript/game-listeners.js"></script>
 </head>
 <body>
-	<header>
-		<div></div>
+	<header class="text-center">
+		<div>Rock Paper Scissors</div>
 	</header>
 	<section>
-		<div id="submit">
-			<button id="connect-btn" type="submit">Start Playing!</button>
-			<button id="disconnect-btn" type="submit">Stop Playing!</button>
+		<div id="submit" class="container">
+			<div id="row">
+				<button id="connect-btn" class="col-md-1 col-md-offset-4" type="submit">Start Playing!</button>
+				<button id="disconnect-btn" class="col-md-1 col-md-offset-2" type="submit">Stop Playing!</button>				
+			</div>
 		</div>
-		<div id="game-arena"></div>
-		<div id="info-area">
-			<div id="name"></div>
+		<div id="name"></div>
+		<div id="score"></div>
+		<div id="system-message"></div>
+		<div id="game-arena" class="jumbotron container"></div>
+		<div id="player-message" class="jumbotron container">
 			<div id="player-chat"></div>
-			<div id="opponent-chat"></div>
-			<div id="score"></div>
-			<div id="system-message"></div>
+			<div id="opponent-chat"></div>			
 			<div id="canned-options"></div>
 		</div>
 	</section>

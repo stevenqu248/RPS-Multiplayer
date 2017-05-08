@@ -57,8 +57,13 @@ database.ref().on("value", function(snapshot)
 			playerName.append((playerPosition == "User1")? "Player 1": "Player 2");
 
 			// clean up the screen
-			$("#system-message").empty();
+			// $("#system-message").empty();
+			$("#system-message").text("Please choose Rock, Paper, or Scissors");
 		}
+
+		// if the player hasn't chosen yet
+		// if(playerPosition == "User1" && User1Choice == "NONE" || playerPosition == "User2" && User2Choice == "NONE") 
+		// $("#system-message").text("Please choose Rock, Paper, or Scissors");
 	}
 
 	// otherwise
@@ -69,14 +74,40 @@ database.ref().on("value", function(snapshot)
 		{
 			$("#name").empty();
 			shutdownGame();
+			
+			if(User1 == "VACANT" && playerPosition == "User1")
+				$("#system-message").text("You have disconnected. Please connect again to continue playing");
+			if(User1 == "VACANT" && playerPosition == "User2")
+				$("#system-message").text("Opponent has disconnected. Please connect again to continue playing");
+			if(User2 == "VACANT" && playerPosition == "User2")
+				$("#system-message").text("You have disconnected. Please connect again to continue playing");
+			if(User2 == "VACANT" && playerPosition == "User1")
+				$("#system-message").text("Opponent has disconnected. Please connect again to continue playing");
+			var slotRef = database.ref(playerPosition);
 			playerPosition = null;
+			slotRef.set("VACANT");
+
+
 		}
 	}
 
+	// if player 1 has chosen and the current tab is one of the players
+	if(User1Choice != "NONE" && User2Choice == "NONE" && playerPosition == "User1")
+	{
+		$("#system-message").text("You have chosen " + User1Choice.toLowerCase() + ". Please wait while your opponent chooses an option.");
+	}
+
+	// if player 2 has chosen and the current tab is one of the players
+	if(User2Choice != "NONE" && User1Choice == "NONE" && playerPosition == "User2")
+	{
+		$("#system-message").text("You have chosen " + User2Choice.toLowerCase() + ". Please wait while your opponent chooses an option.");
+	}
+
+	// if the players have chosen an option and the current tab is one of the players
 	if(User1Choice != "NONE" && User2Choice != "NONE" && playerPosition != null)
 	{
 		console.log(User1Choice + " " + User2Choice);
-		var winner = checkForWin(User1Choice, User2Choice);
+		var winner = checkForWin(User1Choice, User2Choice, playerPosition);
 		User1Choice = User2Choice = "NONE";
 
 		// I don't need to do a listener because I'm setting it to something I want even if they disconnect
@@ -176,6 +207,7 @@ $(document).on("click", "#rock", function(event)
 	
 	else
 	{
+		//  if the player is player 1 and they haven't chosen or if the player is player 2 and they haven't chosen
 		if(playerPosition == "User1" && User1Choice == "NONE" || playerPosition == "User2" && User2Choice == "NONE")
 		{
 			// set up a listener for if the user disconnects
@@ -217,6 +249,7 @@ $(document).on("click", "#scissors", function(event)
 
 	else
 	{
+		//  if the player is player 1 and they haven't chosen or if the player is player 2 and they haven't chosen
 		if(playerPosition == "User1" && User1Choice == "NONE" || playerPosition == "User2" && User2Choice == "NONE")
 		{
 			// set up a listener for if the user disconnects
